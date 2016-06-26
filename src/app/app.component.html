@@ -1,3 +1,17 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <lsq-add-new-link
+        [error]="(state$ | async).validationError"
+        (addLink)="onAddLink($event)"
+      >
+      </lsq-add-new-link>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <lsq-links-list>
+      </lsq-links-list>
+    </div>
+  </div>
+</div>

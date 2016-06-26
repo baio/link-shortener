@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +6,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'add-new-link.component.html',
   styleUrls: ['add-new-link.component.css']
 })
-export class AddNewLinkComponent implements OnInit {
+export class AddNewLinkComponent {
 
-  constructor() {}
+  @Input() error: string;
+  @Output() addLink = new EventEmitter<string>();
 
-  ngOnInit() {
+  onClicked(val : string) {
+    this.addLink.emit(val);
   }
 
 }

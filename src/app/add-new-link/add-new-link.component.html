@@ -1,3 +1,7 @@
-<p>
-  add-new-link works!
-</p>
+<span class="help-inline has-error">{{error}}</span>
+<div class="input-group" [class.has-error]="error">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button" (click)="onClicked(input.value)">Shorten</button>
+  </span>
+  <input type="text" class="form-control" #input id="inputUrl">
+</div>

@@ -23,6 +23,6 @@ export interface LinksState {
     filteredList: FilteredLinksList;
 }
 
-export interface AppSate {
+export interface AppState {
     links: LinksState;
 }

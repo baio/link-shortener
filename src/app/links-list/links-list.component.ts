@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Link } from '../store/';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +7,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'links-list.component.html',
   styleUrls: ['links-list.component.css']
 })
-export class LinksListComponent implements OnInit {
+export class LinksListComponent  {
 
-  constructor() {}
-
-  ngOnInit() {
-  }
-
+  @Input() links: Link[];
 }

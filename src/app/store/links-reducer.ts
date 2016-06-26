@@ -38,7 +38,7 @@ const reduceUrl = (url: string, domain: string) : Link => {
 export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defaultState, action: Action) => {
 
     const clone = (...ext : Object[]) : LinksState =>
-        Object.assign(state, ...ext)
+        Object.assign(state, {validationError : null}, ...ext)
 
     switch (action.type) {
         case SET_DOMAIN: {

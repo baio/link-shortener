@@ -38,6 +38,8 @@ const barrels: string[] = [
   'app/add-new-link',
   'app/links-list',
   'app/links-list-filter',
+  'app/utils',
+  'app/store'
   /** @cli-barrel */
 ];
 
