@@ -29,10 +29,15 @@ const barrels: string[] = [
 
   // Thirdparty barrels.
   'rxjs',
+  '@ngrx/core',
+  '@ngrx/store',
 
   // App specific barrels.
   'app',
   'app/shared',
+  'app/add-new-link',
+  'app/links-list',
+  'app/links-list-filter',
   /** @cli-barrel */
 ];
 
@@ -49,6 +54,7 @@ System.config({
   map: {
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
+    '@ngrx': 'vendor/@ngrx',
     'main': 'main.js'
   },
   packages: cliSystemConfigPackages
