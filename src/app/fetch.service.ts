@@ -3,10 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 
+export class Error {
+    error: string;
+}
+
 @Injectable()
 export class FetchService {
 
-    private baseUrl = "/";
+    private baseUrl = "localhost:2017/";
 
     constructor(private http: Http) {
     }
@@ -16,7 +20,9 @@ export class FetchService {
     }
 
     post<T>(url: string, body?: Object): Observable<T> {
-        return this.http.post(this.getFullUrl(url), body ? JSON.stringify(body) : null).map<T>(r => this.mapResult(r));
+        return this.http.post(this.getFullUrl(url), body ? JSON.stringify(body) : null)
+        .map<T>(r => this.mapResult(r))
+        .catch(err => Observable.throw(err))
     }
 
     remove<T>(url: string): Observable<T> {
