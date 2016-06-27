@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Link } from '../store/';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { AppState, LinksState } from '../store/';
 
 @Component({
   moduleId: module.id,
@@ -9,5 +12,10 @@ import { Link } from '../store/';
 })
 export class LinksListComponent  {
 
-  @Input() links: Link[];
+  state$: Observable<LinksState>;
+
+  constructor(private store$: Store<AppState>) {
+    this.state$ = store$.select(p => p.links);
+  }
+
 }

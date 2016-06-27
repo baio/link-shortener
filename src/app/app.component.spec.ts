@@ -16,8 +16,4 @@ describe('App: LinkSquashApp', () => {
     expect(app).toBeTruthy();
   }));
 
-  it('should have as title \'app works!\'',
-      inject([AppComponent], (app: AppComponent) => {
-    expect(app.title).toEqual('app works!');
-  }));
 });

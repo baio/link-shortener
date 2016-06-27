@@ -1,6 +1,6 @@
 <div class="table table-striped">
 <table class="table">
-  <tr *ngFor="let link of links">
+  <tr *ngFor="let link of (state$ | async).filteredList.links">
     <td>
       {{ link.shortenLink }}
     </td>

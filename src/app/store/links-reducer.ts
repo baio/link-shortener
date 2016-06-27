@@ -37,8 +37,8 @@ const reduceUrl = (url: string, domain: string) : Link => {
 
 export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defaultState, action: Action) => {
 
-    const clone = (...ext : Object[]) : LinksState =>
-        Object.assign(state, {validationError : null}, ...ext)
+    const clone = (ext : Object) : LinksState =>
+        Object.assign({}, state, {validationError : null}, ext)
 
     switch (action.type) {
         case SET_DOMAIN: {
@@ -51,7 +51,7 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
             if (isValidUrl(url)) {
                 let links = [reduceUrl(url, state.domain), ...state.list.links];
                 return clone({
-                    list : { links : links},
+                    list : { links },
                     filteredList : reduceFilteredList(state.filteredList.filter, links)
                 });
             } else {
