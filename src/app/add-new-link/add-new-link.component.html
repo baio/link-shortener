@@ -3,5 +3,5 @@
   <span class="input-group-btn">
     <button class="btn btn-default" type="button" (click)="onClicked(input.value)">Shorten</button>
   </span>
-  <input type="text" class="form-control" #input id="inputUrl">
+  <input type="text" class="form-control" [value]="value" #input id="inputUrl">
 </div>

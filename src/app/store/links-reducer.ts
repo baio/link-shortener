@@ -11,6 +11,7 @@ import {
 } from './app-actions';
 
 let defaultState : LinksState = {
+    url: "",
     domain: "http://tkf.co",
     validationError: null,
     list: { links : [] },
@@ -51,11 +52,13 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
             if (isValidUrl(url)) {
                 let links = [reduceUrl(url, state.domain), ...state.list.links];
                 return clone({
+                    url: "",
                     list : { links },
                     filteredList : reduceFilteredList(state.filteredList.filter, links)
                 });
             } else {
                 return clone({
+                    url: url,
                     validationError : "String is not url."
                 });
             }

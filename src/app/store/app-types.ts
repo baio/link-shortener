@@ -18,6 +18,7 @@ export interface LinksList {
 
 export interface LinksState {
     domain: string;
+    url: string;
     validationError: string;
     list: LinksList;
     filteredList: FilteredLinksList;
