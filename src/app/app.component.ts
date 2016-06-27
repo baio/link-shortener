@@ -23,7 +23,6 @@ export class AppComponent {
 
   constructor(private store$: Store<AppState>) {
     this.state$ = store$.select(p => p.links);
-
   }
 
   onAddLink(url: string): void {

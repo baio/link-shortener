@@ -31,6 +31,7 @@ const barrels: string[] = [
   'rxjs',
   '@ngrx/core',
   '@ngrx/store',
+  '@ngrx/effects',
   'ngrx-store-logger',
 
   // App specific barrels.
