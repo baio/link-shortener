@@ -1,4 +1,4 @@
-export type LinkStatus = 'unsaved' | 'saving' | 'removing' | 'saved' | 'removed';
+export type LinkStatus = 'unsaved' | 'saving' | 'removing' | 'saved' | 'removed' | 'error';
 
 export interface Link {
     hash: string;

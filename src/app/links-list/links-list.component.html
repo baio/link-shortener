@@ -2,10 +2,22 @@
 <table class="table">
   <tr *ngFor="let link of (state$ | async).filteredList.links">
     <td>
-      {{ link.shortenLink }}
+      <div [ngSwitch]="link.status">
+        <span *ngSwitchCase="'saving'" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+        <span *ngSwitchCase="'removing'" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+        <span *ngSwitchCase="'unsaved'" class="glyphicon glyphicon-cloud-upload"></span>
+        <span *ngSwitchCase="'saved'" class="glyphicon glyphicon-cloud"></span>
+        <span *ngSwitchCase="'error'" class="glyphicon glyphicon-alert has-error"></span>
+      </div>
     </td>
     <td>
-      {{ link.fullLink }}
+      <a [href]="link.shortenLink" traget="blank"> {{ link.shortenLink }} </a>
+    </td>
+    <td>
+      <a [href]="link.fullLink" target="blank"> {{ link.fullLink }} </a>
+    </td>
+    <td (click)="onLinkRemove(link)">
+      <span class="glyphicon glyphicon-remove"></span>
     </td>
   </tr>
 </table>

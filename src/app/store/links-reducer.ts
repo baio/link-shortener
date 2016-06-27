@@ -11,7 +11,7 @@ import {
 } from './app-actions';
 
 let defaultState : LinksState = {
-    domain: "tkf.co",
+    domain: "http://tkf.co",
     validationError: null,
     list: { links : [] },
     filteredList: { links : [], filter : "" }
@@ -63,7 +63,7 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
         case REMOVE_LINK: {
             let payload : RemoveLinkPayload = action.payload;
             let links = state.list.links.map(p =>
-                p.hash === payload.hash ? Object.assign({}, { status : "removing"}) : p);
+                p.hash === payload.hash ? Object.assign({}, p, { status : "removing"}) : p);
             return clone({
                 list : { links : links},
                 filteredList : reduceFilteredList(state.filteredList.filter, links)

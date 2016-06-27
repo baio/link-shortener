@@ -31,6 +31,7 @@ const barrels: string[] = [
   'rxjs',
   '@ngrx/core',
   '@ngrx/store',
+  'ngrx-store-logger',
 
   // App specific barrels.
   'app',
@@ -57,6 +58,7 @@ System.config({
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
     '@ngrx': 'vendor/@ngrx',
+    'ngrx-store-logger': 'vendor/ngrx-store-logger/dist',
     'main': 'main.js'
   },
   packages: cliSystemConfigPackages

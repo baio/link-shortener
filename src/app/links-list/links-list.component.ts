@@ -2,7 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { AppState, LinksState } from '../store/';
+import { AppState, LinksState,
+  Link,
+  REMOVE_LINK, RemoveLinkPayload
+} from '../store/';
 
 @Component({
   moduleId: module.id,
@@ -16,6 +19,10 @@ export class LinksListComponent  {
 
   constructor(private store$: Store<AppState>) {
     this.state$ = store$.select(p => p.links);
+  }
+
+  onLinkRemove(link: Link): void {
+    this.store$.dispatch({type: REMOVE_LINK, payload: <RemoveLinkPayload>{hash: link.hash}});
   }
 
 }

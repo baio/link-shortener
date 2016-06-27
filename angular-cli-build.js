@@ -17,7 +17,9 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
       '@ngrx/**/*.+(js|js.map)',
-      'bootstrap/dist/css/bootstrap.min.css'
+      'ngrx-store-logger/**/*.+(js|js.map)',
+      'bootstrap/dist/css/bootstrap.min.css',
+      'bootstrap/dist/fonts/**/*'
     ]
   });
 };
