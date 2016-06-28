@@ -4,16 +4,11 @@ import {getStringHashCode, isValidUrl} from '../utils/';
 import {
     SET_DOMAIN, SetDomainPayload,
     ADD_LINK, AddLinkPayload,
-    ADD_LINK_SUCCESS, AddLinkSuccessPayload,
-    ADD_LINK_ERROR, AddLinkErrorPayload,
-    REMOVE_LINK, RemoveLinkPayload,
-    REMOVE_LINK_SUCCESS, RemoveLinkSuccessPayload,
-    REMOVE_LINK_ERROR, RemoveLinkErrorPayload,
+    UPDATE_LINK, UpdateLinkPayload,
     FETCH_LINKS, FetchLinksPayload,
     FETCH_LINKS_SUCCESS, FetchLinksSuccessPayload,
     FETCH_LINKS_ERROR, FetchLinksErrorPayload,
     FILTER_LINKS, FilterLinksPayload,
-    UPDATE_LINK_STATUS, UpdateLinkStatusPayload
 } from './app-actions';
 
 let defaultState : LinksState = {
@@ -37,10 +32,17 @@ const reduceUrl = (url: string, domain: string) : Link => {
         hash,
         fullLink: url,
         shortenLink: domain + "/" +hash,
-        status: "saving"
+        status: "unsaved"
     }
 }
 
+const reduceLinks = (links: Link[], payload: UpdateLinkPayload) : Link[] => {
+    if (payload.status === 'success' && payload.link.status === 'removing') {
+        return links.filter(f => f.hash !== payload.link.hash);
+    } else {
+        return links.map(m => m.hash !== payload.link.hash ? m : Object.assign({}, m, {status : payload.status}));
+    }
+}
 
 export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defaultState, action: Action) => {
 
@@ -69,45 +71,9 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
                 });
             }
         }
-        case ADD_LINK_SUCCESS: {
-            let payload : AddLinkSuccessPayload = action.payload;
-            let links = state.list.links.map(p =>
-                p.fullLink === payload.link.fullLink ? Object.assign({}, p, { status : 'saved'}) : p);
-            return clone({
-                list : { links },
-                filteredList : reduceFilteredList(state.filteredList.filter, links)
-            });
-        }
-        case ADD_LINK_ERROR: {
-            let payload : AddLinkErrorPayload = action.payload;
-            let links = state.list.links.map(p =>
-                p.fullLink === payload.url ? Object.assign({}, p, { status : 'error'}) : p);
-            return clone({
-                list : { links },
-                filteredList : reduceFilteredList(state.filteredList.filter, links)
-            });
-        }
-        case REMOVE_LINK: {
-            let payload : RemoveLinkPayload = action.payload;
-            let links = state.list.links.map(p =>
-                p.hash === payload.hash ? Object.assign({}, p, { status : "removing"}) : p);
-            return clone({
-                list : { links },
-                filteredList : reduceFilteredList(state.filteredList.filter, links)
-            });
-        }
-        case REMOVE_LINK_SUCCESS: {
-            let payload : RemoveLinkSuccessPayload = action.payload;
-            let links = state.list.links.filter(p => p.hash !== payload.hash);
-            return clone({
-                list : { links },
-                filteredList : reduceFilteredList(state.filteredList.filter, links)
-            });
-        }
-        case REMOVE_LINK_ERROR: {
-            let payload : RemoveLinkErrorPayload = action.payload;
-            let links = state.list.links.map(p =>
-                p.hash === payload.hash ? Object.assign({}, p, { status : "error"}) : p);
+        case UPDATE_LINK: {
+            let payload : UpdateLinkPayload = action.payload;
+            let links = reduceLinks(state.list.links, payload);
             return clone({
                 list : { links },
                 filteredList : reduceFilteredList(state.filteredList.filter, links)
@@ -124,21 +90,6 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
             let payload : FilterLinksPayload = action.payload;
             return clone({
                 filteredList : reduceFilteredList(payload.filter, state.list.links)
-            });
-
-        }
-        case UPDATE_LINK_STATUS: {
-            let payload : UpdateLinkStatusPayload = action.payload;
-            let links = state.list.links;
-            if (payload.status === "removed") {
-                links = links.filter(p => p.hash !== payload.hash);
-            } else {
-                links = state.list.links.map(p =>
-                    p.hash === payload.hash ? Object.assign({}, { status : payload.status}) : p);
-            }
-            return clone({
-                list : { links : links},
-                filteredList : reduceFilteredList(state.filteredList.filter, links)
             });
         }
         default:
