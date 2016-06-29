@@ -41,7 +41,9 @@ const barrels: string[] = [
   'app/links-list',
   'app/links-list-filter',
   'app/utils',
-  'app/store'
+  'app/store',
+  'app/main-page',
+  'app/links-page'
   /** @cli-barrel */
 ];
 

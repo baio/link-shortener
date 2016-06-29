@@ -1,8 +1,7 @@
 import {ActionReducer, Action} from '@ngrx/store';
-import {LinksState, Link, LinkStatus} from './app-types';
-import {getStringHashCode, isValidUrl} from '../utils/';
+import {Observable} from 'rxjs/Observable';
+import {AppState, LinksState, Link, LinkStatus, LinkExt} from './app-types';
 import {
-    UpdateLinkStatus,
     ADD_LINK_SUCCESS, AddLinkSuccessPayload,
     UPDATE_LINK, UpdateLinkPayload,
     FETCH_LINKS_SUCCESS, FetchLinksSuccessPayload
@@ -10,17 +9,6 @@ import {
 
 let defaultState : LinksState = {
     links : []
-}
-
-const mapUpdateStatus = (updateStatus: UpdateLinkStatus) : LinkStatus => {
-    switch(updateStatus) {
-        case 'start':
-            return 'saving';
-        case 'success':
-            return 'saved';
-        case 'error':
-            return 'error';
-    }
 }
 
 export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defaultState, action: Action) : LinksState => {
@@ -32,14 +20,14 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
         case ADD_LINK_SUCCESS: {
             let payload = <AddLinkSuccessPayload> action.payload;
             return { links : [
-                { url: payload.url, hash: getStringHashCode(payload.url).toString(), status: 'unsaved' },
+                payload.link,
                 ...state.links]
             };
         }
         case UPDATE_LINK: {
             let payload = <UpdateLinkPayload> action.payload;
             return { links :
-                state.links.map(m => m.hash === payload.link.hash ? Object.assign({}, m, {status: mapUpdateStatus(payload.status)}) : m)
+                state.links.map(m => m.hash === payload.link.hash ? Object.assign({}, m, {status: payload.status}) : m)
             };
         }
         default:
@@ -47,3 +35,9 @@ export const linksReducer: ActionReducer<LinksState> = (state: LinksState = defa
     }
 };
 
+export function getExtLinks()  {
+  return (state$: Observable<AppState>) : Observable<LinkExt[]> =>
+    state$.map(m =>
+        m.links.links.map(l => Object.assign({}, l, { shortenUrl : `${m.config.domain}/${l.hash}` }))
+    )
+};

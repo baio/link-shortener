@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import {isValidUrl} from '../../utils/';
+import {getStringHashCode, isValidUrl} from '../../utils/';
 
 import {
     ADD_LINK, AddLinkPayload,
@@ -21,9 +21,10 @@ export class ValidationEffects {
     constructor(private updates$: StateUpdates<any>) {
     }
 
-    @Effect() validateAddLink = this.updates$.whenAction(ADD_LINK).map<AddLinkPayload>(toPayload).map(payload =>
-        isValidUrl(payload.url) ?
-        {type: ADD_LINK_SUCCESS, payload: <AddLinkSuccessPayload> {url: payload.url}} :
-        {type: ADD_LINK_ERROR, payload: <AddLinkErrorPayload> {url: payload.url, error: "Url is not valid"}}
-    )
+    @Effect() validateAddLink = this.updates$.whenAction(ADD_LINK).map<AddLinkPayload>(toPayload).map(payload => {
+        let link : Link = { url: payload.url, hash: getStringHashCode(payload.url).toString(), status: 'unsaved' };
+        return isValidUrl(payload.url) ?
+            {type: ADD_LINK_SUCCESS, payload: <AddLinkSuccessPayload> {link}} :
+            {type: ADD_LINK_ERROR, payload: <AddLinkErrorPayload> {url: payload.url, error: "Url is not valid"}}
+    })
 }

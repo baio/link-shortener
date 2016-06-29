@@ -6,6 +6,12 @@ export interface SetDomainPayload {
     domain: string;
 }
 
+export const REMOVE_LINK = "REMOVE_LINK";
+
+export interface RemoveLinkPayload {
+    link: Link;
+}
+
 export const ADD_LINK = "ADD_LINK";
 
 export interface AddLinkPayload {
@@ -15,7 +21,7 @@ export interface AddLinkPayload {
 export const ADD_LINK_SUCCESS = "ADD_LINK_SUCCESS";
 
 export interface AddLinkSuccessPayload {
-    url: string;
+    link: Link
 }
 
 export const ADD_LINK_ERROR = "ADD_LINK_ERROR";
@@ -27,11 +33,9 @@ export interface AddLinkErrorPayload {
 
 export const UPDATE_LINK = "UPDATE_LINK";
 
-export type UpdateLinkStatus = 'start' | 'success' | 'error';
-
 export interface UpdateLinkPayload {
     link: Link,
-    status: UpdateLinkPayload,
+    status: LinkStatus,
     error?: string // only if status 'error'
 }
 

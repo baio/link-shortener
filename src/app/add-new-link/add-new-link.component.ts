@@ -8,15 +8,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AddNewLinkComponent {
 
+  @Input() url: string;
   @Input() error: string;
-  @Input() value: string;
   @Output() addLink = new EventEmitter<string>();
 
-  onClicked(val : string) {
+  onClicked(val : string, input: HTMLInputElement) {
+    input.value = null;
     this.addLink.emit(val);
   }
 
-  ngChanges() {
-    console.log("+++", this.value);
-  }
 }

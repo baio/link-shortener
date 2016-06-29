@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { AppState, LinksState,
-  Link,
+  LinkExt, Link,
   REMOVE_LINK, RemoveLinkPayload
 } from '../store/';
 
@@ -15,14 +15,12 @@ import { AppState, LinksState,
 })
 export class LinksListComponent  {
 
-  state$: Observable<LinksState>;
-
-  constructor(private store$: Store<AppState>) {
-    this.state$ = store$.select(p => p.links);
-  }
+  @Input() links: LinkExt[];
+  @Output() removeLink = new EventEmitter<Link>();
+  @Output() filterLinks = new EventEmitter<string>();
 
   onLinkRemove(link: Link): void {
-    this.store$.dispatch({type: REMOVE_LINK, payload: <RemoveLinkPayload>{hash: link.hash}});
+    this.removeLink.emit(link);
   }
 
 }

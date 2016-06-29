@@ -1,6 +1,6 @@
 <div class="table table-striped">
 <table class="table">
-  <tr *ngFor="let link of (state$ | async).filteredList.links">
+  <tr *ngFor="let link of links">
     <td>
       <div [ngSwitch]="link.status">
         <span *ngSwitchCase="'saving'" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
@@ -11,10 +11,10 @@
       </div>
     </td>
     <td>
-      <a [href]="link.shortenLink" traget="blank"> {{ link.shortenLink }} </a>
+      <a [href]="link.shortenUrl" traget="blank"> {{ link.shortenUrl }} </a>
     </td>
     <td>
-      <a [href]="link.fullLink" target="blank"> {{ link.fullLink }} </a>
+      <a [href]="link.url" target="blank"> {{ link.url }} </a>
     </td>
     <td (click)="onLinkRemove(link)">
       <span class="glyphicon glyphicon-remove"></span>

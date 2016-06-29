@@ -8,7 +8,7 @@ export class Error {
 }
 
 @Injectable()
-export class FetchService {
+export class FetchService {s
 
     private baseUrl = "localhost:2017/";
 
@@ -16,17 +16,18 @@ export class FetchService {
     }
 
     get<T>(url: string): Observable<T> {
-        return this.http.get(this.getFullUrl(url)).map<T>(r => this.mapResult(r));
+        return this.http.get(this.getFullUrl(url))
+        .map<T>(r => this.mapResult(r)).catch(err => Observable.throw(err));
     }
 
     post<T>(url: string, body?: Object): Observable<T> {
         return this.http.post(this.getFullUrl(url), body ? JSON.stringify(body) : null)
-        .map<T>(r => this.mapResult(r))
-        .catch(err => Observable.throw(err))
+        .map<T>(r => this.mapResult(r)).catch(err => Observable.throw(err))
     }
 
     remove<T>(url: string): Observable<T> {
-        return this.http.delete(this.getFullUrl(url)).map<T>(r => this.mapResult(r));
+        return this.http.delete(this.getFullUrl(url))
+        .map<T>(r => this.mapResult(r)).catch(err => Observable.throw(err));
     }
 
     private mapResult(res: any): any {

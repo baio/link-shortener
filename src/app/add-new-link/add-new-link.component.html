@@ -1,7 +1,7 @@
 <span class="help-inline has-error">{{error}}</span>
 <div class="input-group" [class.has-error]="error">
   <span class="input-group-btn">
-    <button class="btn btn-default" type="button" (click)="onClicked(input.value)">Shorten</button>
+    <button class="btn btn-default" type="button" (click)="onClicked(input.value, input)">Shorten</button>
   </span>
-  <input type="text" class="form-control" [value]="value" #input id="inputUrl">
+  <input type="text" class="form-control" [value]="url" #input id="inputUrl">
 </div>
