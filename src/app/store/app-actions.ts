@@ -12,12 +12,26 @@ export interface AddLinkPayload {
     url: string;
 }
 
-//Handle update state changes
-export const UPDATE_LINK = "SAVE_LINK_UPDATE";
+export const ADD_LINK_SUCCESS = "ADD_LINK_SUCCESS";
+
+export interface AddLinkSuccessPayload {
+    url: string;
+}
+
+export const ADD_LINK_ERROR = "ADD_LINK_ERROR";
+
+export interface AddLinkErrorPayload {
+    url: string;
+    error: string;
+}
+
+export const UPDATE_LINK = "UPDATE_LINK";
+
+export type UpdateLinkStatus = 'start' | 'success' | 'error';
 
 export interface UpdateLinkPayload {
     link: Link,
-    status: 'start' | 'success' | 'error',
+    status: UpdateLinkPayload,
     error?: string // only if status 'error'
 }
 

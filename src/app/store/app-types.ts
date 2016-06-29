@@ -1,29 +1,30 @@
-export type LinkStatus = 'unsaved' | 'saving' | 'removing' | 'saved' | 'removed' | 'error';
+export type LinkStatus = 'unsaved' | 'saving' |  'saved' | 'removing' |'removed' | 'error';
 
 export interface Link {
+    url: string;
     hash: string;
-    fullLink: string;
-    shortenLink: string;
-    status : LinkStatus;
+    status: LinkStatus;
 }
 
-export interface FilteredLinksList {
-    filter: string;
-    links: Link[];
+export interface LinkExt extends Link {
+    shortenUrl: string;
 }
 
-export interface LinksList {
-    links: Link[];
+export interface ConfigState {
+    domain: string;
+}
+
+export interface InputState {
+    url: string;
+    validationError: string;
 }
 
 export interface LinksState {
-    domain: string;
-    url: string;
-    validationError: string;
-    list: LinksList;
-    filteredList: FilteredLinksList;
+    links: Link[];
 }
 
 export interface AppState {
+    config: ConfigState;
+    input: InputState;
     links: LinksState;
 }

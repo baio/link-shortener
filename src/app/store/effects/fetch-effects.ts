@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+/*
 import {
     FETCH_LINKS, FetchLinksPayload,
     FETCH_LINKS_SUCCESS, FetchLinksSuccessPayload,
@@ -49,13 +50,11 @@ export class FetchEffects {
             }
         })
 
-    /*
     @Effect() removeLink = this.updates$.whenAction(REMOVE_LINK).map<RemoveLinkPayload>(toPayload).switchMap(payload =>
         this.fetchService.remove("links/" + payload.hash)
         .map(m => ({type: REMOVE_LINK_SUCCESS, payload: <RemoveLinkSuccessPayload>{ hash: payload.hash }}))
         .catch(err => Observable.of({type: REMOVE_LINK_ERROR, payload: <RemoveLinkErrorPayload>{ hash: payload.hash, error: err }}))
     )
-    */
-
 
 }
+*/
