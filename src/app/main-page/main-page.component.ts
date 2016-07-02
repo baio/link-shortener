@@ -14,14 +14,14 @@ import {
   FILTER_LINKS, FilterLinksPayload
 } from '../store';
 
-import {subjectDebounce} from '../utils/'
+import {EventDebounceDirective} from '../directives/'
 
 @Component({
   moduleId: module.id,
   selector: 'lsq-main-page',
   templateUrl: 'main-page.component.html',
   styleUrls: ['main-page.component.css'],
-  directives: [AddNewLinkComponent, LinksListComponent]
+  directives: [AddNewLinkComponent, LinksListComponent, EventDebounceDirective]
 })
 export class MainPageComponent  {
 
@@ -29,30 +29,27 @@ export class MainPageComponent  {
   links$: Observable<LinkExt[]>;
   filter$: Observable<string>;
 
-  filterChanged: Subject<Action> = new Subject<Action>();
-
   constructor(private state$: Store<AppState>) {
 
     this.input$ = state$.select(p => p.input);
     this.links$ = state$.let(getExtLinksFiltered());
     this.filter$ = state$.let(getFilter());
 
-    subjectDebounce(this.filterChanged, 1000, (action) =>
-      this.state$.dispatch(action)
-    )
   }
 
   onAddLink(url: string) {
+
     this.state$.dispatch({type: ADD_LINK, payload: <AddLinkPayload>{url}});
   }
 
   onRemoveLink(link: Link) {
+
     this.state$.dispatch({type: REMOVE_LINK, payload: <RemoveLinkPayload>{link}});
   }
 
-  onFilterLinks(filter: string) {
+  onFilterLinks = (filter: string) => {
 
-    this.filterChanged.next({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
+    this.state$.dispatch({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
   }
 
 }
