@@ -12,6 +12,7 @@ import {
     FETCH_LINKS_SUCCESS, FetchLinksSuccessPayload,
     FETCH_LINKS_ERROR, FetchLinksErrorPayload,
     ADD_LINK_SUCCESS, AddLinkSuccessPayload,
+    REMOVE_LINK, RemoveLinkPayload,
     UPDATE_LINK, UpdateLinkPayload
 } from '../app-actions';
 import {AppState, Link } from '../app-types';
@@ -36,6 +37,20 @@ export class FetchEffects {
 
                 this.fetchService.post("links", { url : link, hash : link.hash })
                 .map(m => ({type: UPDATE_LINK, payload: <UpdateLinkPayload>{ link, status: 'saved' }}))
+                .catch(err =>
+                    Observable.of({type: UPDATE_LINK, payload: <UpdateLinkPayload>{ link, status: 'error', error: err }})
+                )
+            )
+        )
+
+    @Effect() removeLink = this.updates$.whenAction(REMOVE_LINK).map<RemoveLinkPayload>(toPayload).map(p => p.link)
+        .switchMap(link =>
+
+            Observable.concat(
+                Observable.of({type: UPDATE_LINK, payload: <UpdateLinkPayload>{ link, status : 'removing' }}),
+
+                this.fetchService.remove("links/" + link.hash)
+                .map(m => ({type: UPDATE_LINK, payload: <UpdateLinkPayload>{ link, status: 'removed' }}))
                 .catch(err =>
                     Observable.of({type: UPDATE_LINK, payload: <UpdateLinkPayload>{ link, status: 'error', error: err }})
                 )
