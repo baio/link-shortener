@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import  { LinksListComponent } from '../links-list';
 import  { AddNewLinkComponent } from '../add-new-link';
@@ -12,6 +13,8 @@ import {
   REMOVE_LINK, RemoveLinkPayload,
   FILTER_LINKS, FilterLinksPayload
 } from '../store';
+
+import {subjectDebounce} from '../utils/'
 
 @Component({
   moduleId: module.id,
@@ -26,11 +29,17 @@ export class MainPageComponent  {
   links$: Observable<LinkExt[]>;
   filter$: Observable<string>;
 
+  filterChanged: Subject<Action> = new Subject<Action>();
+
   constructor(private state$: Store<AppState>) {
 
     this.input$ = state$.select(p => p.input);
     this.links$ = state$.let(getExtLinksFiltered());
     this.filter$ = state$.let(getFilter());
+
+    subjectDebounce(this.filterChanged, 1000, (action) =>
+      this.state$.dispatch(action)
+    )
   }
 
   onAddLink(url: string) {
@@ -42,7 +51,8 @@ export class MainPageComponent  {
   }
 
   onFilterLinks(filter: string) {
-    this.state$.dispatch({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
+
+    this.filterChanged.next({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
   }
 
 }
