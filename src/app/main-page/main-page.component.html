@@ -11,6 +11,7 @@
 <div class="row">
   <div class="col-md-12">
     <lsq-links-list
+      [filter]="(filter$ | async)"
       [links]="(links$ | async)"
       (removeLink)="onRemoveLink($event)"
       (filterLinks)="onFilterLinks($event)"

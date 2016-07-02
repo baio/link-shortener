@@ -6,10 +6,11 @@ import  { LinksListComponent } from '../links-list';
 import  { AddNewLinkComponent } from '../add-new-link';
 
 import {
-  getExtLinks,
+  getExtLinksFiltered, getFilter,
   AppState, InputState, LinkExt, Link,
   ADD_LINK, AddLinkPayload,
-  REMOVE_LINK, RemoveLinkPayload
+  REMOVE_LINK, RemoveLinkPayload,
+  FILTER_LINKS, FilterLinksPayload
 } from '../store';
 
 @Component({
@@ -23,11 +24,13 @@ export class MainPageComponent  {
 
   input$: Observable<InputState>;
   links$: Observable<LinkExt[]>;
+  filter$: Observable<string>;
 
   constructor(private state$: Store<AppState>) {
 
     this.input$ = state$.select(p => p.input);
-    this.links$ = state$.let(getExtLinks());
+    this.links$ = state$.let(getExtLinksFiltered());
+    this.filter$ = state$.let(getFilter());
   }
 
   onAddLink(url: string) {
@@ -39,6 +42,7 @@ export class MainPageComponent  {
   }
 
   onFilterLinks(filter: string) {
+    this.state$.dispatch({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
   }
 
 }

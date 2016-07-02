@@ -41,3 +41,10 @@ export function getExtLinks()  {
         m.links.links.map(l => Object.assign({}, l, { shortenUrl : `${m.config.domain}/${l.hash}` }))
     )
 };
+
+export function getExtLinksFiltered() {
+  return (state$: Observable<AppState>) : Observable<LinkExt[]> =>
+    state$.let(getExtLinks()).zip(state$.map(m => m.filter.filter))
+    .map(([list, filter]) => filter ? list.filter(f => f.url.indexOf(filter) !== -1) : list)
+};
+

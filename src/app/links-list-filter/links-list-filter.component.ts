@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +6,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'links-list-filter.component.html',
   styleUrls: ['links-list-filter.component.css']
 })
-export class LinksListFilterComponent implements OnInit {
+export class LinksListFilterComponent  {
 
-  constructor() {}
+  @Input() filter: string;
+  @Output() changed = new EventEmitter<string>();
 
-  ngOnInit() {
+  onChanged(filter: string): void {
+
+    this.changed.emit(filter);
   }
 
 }

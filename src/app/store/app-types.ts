@@ -23,8 +23,13 @@ export interface LinksState {
     links: Link[];
 }
 
+export interface FilterState {
+    filter: string;
+}
+
 export interface AppState {
     config: ConfigState;
     input: InputState;
     links: LinksState;
+    filter: FilterState;
 }

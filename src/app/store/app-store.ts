@@ -6,6 +6,7 @@ import {storeLogger} from 'ngrx-store-logger';
 import { configReducer } from "./config-reducer";
 import { inputReducer } from "./input-reducer";
 import { linksReducer } from "./links-reducer";
+import { filterReducer } from "./filter-reducer";
 import { FetchEffects } from "../store/effects/fetch-effects";
 import { ValidationEffects } from "../store/effects/validation-effects";
 
@@ -16,7 +17,8 @@ export const appStore: any[] = provideStore(
     )({
         links: linksReducer,
         config: configReducer,
-        input: inputReducer
+        input: inputReducer,
+        filter: filterReducer
     })
 );
 

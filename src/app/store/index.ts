@@ -1,3 +1,4 @@
 export * from './app-actions';
 export * from './app-types';
-export { getExtLinks } from './links-reducer';
+export { getExtLinksFiltered } from './links-reducer';
+export { getFilter } from './filter-reducer';
