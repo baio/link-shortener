@@ -13,3 +13,9 @@ export const subjectDebounce = <T>(subject: Subject<T>, dueTime: number, action 
     })
 }
 
+export function getDebounce<T>(dueTime: number, action : (T) => void) {
+  return (obs: Observable<T>) : Observable<T> =>
+    obs.debounceTime(dueTime).distinctUntilChanged().do(p => action(p))
+};
+
+
