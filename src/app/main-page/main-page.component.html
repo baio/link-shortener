@@ -15,9 +15,7 @@
       [filter]="(filter$ | async)"
       [links]="(links$ | async)"
       (removeLink)="onRemoveLink($event)"
-      [eventDebounce]="[
-        {event: el.filterLinks, handler: onFilterLinks,  dueTime: 500}
-      ]"
+      (filterLinks)="onFilterLinks($event)"
     >
     </lsq-links-list>
   </div>

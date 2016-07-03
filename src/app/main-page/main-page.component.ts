@@ -14,14 +14,15 @@ import {
   FILTER_LINKS, FilterLinksPayload
 } from '../store';
 
-import {EventDebounceDirective} from '../directives/'
+//import {EventDebounceDirective} from '../directives/'
+import {debounce} from '../utils/';
 
 @Component({
   moduleId: module.id,
   selector: 'lsq-main-page',
   templateUrl: 'main-page.component.html',
   styleUrls: ['main-page.component.css'],
-  directives: [AddNewLinkComponent, LinksListComponent, EventDebounceDirective]
+  directives: [AddNewLinkComponent, LinksListComponent]
 })
 export class MainPageComponent  {
 
@@ -35,6 +36,12 @@ export class MainPageComponent  {
     this.links$ = state$.let(getExtLinksFiltered());
     this.filter$ = state$.let(getFilter());
 
+    /*
+      [eventDebounce]="[
+        {event: el.filterLinks, handler: onFilterLinks,  dueTime: 500}
+      ]"
+    */
+
   }
 
   onAddLink(url: string) {
@@ -47,7 +54,8 @@ export class MainPageComponent  {
     this.state$.dispatch({type: REMOVE_LINK, payload: <RemoveLinkPayload>{link}});
   }
 
-  onFilterLinks = (filter: string) => {
+  @debounce(500)
+  onFilterLinks(filter: string) {
 
     this.state$.dispatch({type: FILTER_LINKS, payload: <FilterLinksPayload>{filter}});
   }
